@@ -229,8 +229,10 @@
                         } else {
                             this.curValue = selectItem[this.displayKey]
                         }
-
-                        this.$emit('item-selected', value, selectItem, isTrigger)
+                        // 用户可以配置自动触发，用于实现多个联动
+                        if (isTrigger) {
+                            this.$emit('item-selected', value, selectItem, isTrigger)
+                        }
                     } else {
                         this.curValue = ''
                     }
@@ -309,7 +311,7 @@
                 let selectItem = null
 
                 for (const item of this.defaultList) {
-                    if (item[this.settingKey] === key) {
+                    if (String(item[this.settingKey]) === String(key)) {
                         selectItem = item
                         selectItem.type = 'normal'
                     }
@@ -329,7 +331,7 @@
                     this.curSelectIndex = -1
                 }
                 this.resultList.forEach((item, index) => {
-                    if (item[this.settingKey] === key) {
+                    if (String(item[this.settingKey]) === String(key)) {
                         item.isSelected = true
                         this.curSelectIndex = index
                     } else {
